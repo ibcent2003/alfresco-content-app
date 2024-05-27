@@ -26,42 +26,46 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: ./.github/actions/update-library-versions
-      name: Update Library Versions
-      with:
-        branch_name: ${{ env.BRANCH_NAME }}
-        dry-run: ${{ inputs.dry-run }}
+    - name: Print vars
+      run: |
+        echo "branch_name: ${{ inputs.branch_name }}"
+        echo "npm_tag: ${{ inputs.npm_tag }}"
+    # - uses: ./.github/actions/update-library-versions
+    #   name: Update Library Versions
+    #   with:
+    #     branch_name: ${{ env.BRANCH_NAME }}
+    #     dry-run: ${{ inputs.dry-run }}
 
-    - name: Build Libraries
-      shell: bash
-      run: npm ci && npm run build
+    # - name: Build Libraries
+    #   shell: bash
+    #   run: npm ci && npm run build
 
-    - uses: actions/setup-node@v3
-      name: setup GH registry
-      with:
-        node-version-file: '.nvmrc'
-        registry-url: 'https://npm.pkg.github.com'
-        scope: '@alfresco'
+    # - uses: actions/setup-node@v3
+    #   name: setup GH registry
+    #   with:
+    #     node-version-file: '.nvmrc'
+    #     registry-url: 'https://npm.pkg.github.com'
+    #     scope: '@alfresco'
 
-    - name: Publish to GH registry
-      shell: bash
-      run: ${{ github.action_path }}/npm-publish.sh "$TAG" "$DRY_RUN"
-      env:
-        NODE_AUTH_TOKEN: ${{ inputs.github_token }}
-        TAG: ${{ inputs.npm_tag }}
-        DRY_RUN: ${{ inputs.dry-run }}
+    # - name: Publish to GH registry
+    #   shell: bash
+    #   run: ${{ github.action_path }}/npm-publish.sh "$TAG" "$DRY_RUN"
+    #   env:
+    #     NODE_AUTH_TOKEN: ${{ inputs.github_token }}
+    #     TAG: ${{ inputs.npm_tag }}
+    #     DRY_RUN: ${{ inputs.dry-run }}
 
-    - uses: actions/setup-node@v3
-      name: setup NPM registry
-      with:
-        node-version-file: '.nvmrc'
-        registry-url: 'https://registry.npmjs.org'
-        scope: '@alfresco'
+    # - uses: actions/setup-node@v3
+    #   name: setup NPM registry
+    #   with:
+    #     node-version-file: '.nvmrc'
+    #     registry-url: 'https://registry.npmjs.org'
+    #     scope: '@alfresco'
 
-    - name: Publish to NPM registry
-      shell: bash
-      run: ${{ github.action_path }}/npm-publish.sh "$TAG" "$DRY_RUN"
-      env:
-        NODE_AUTH_TOKEN: ${{ inputs.npm_registry_token }}
-        TAG: ${{ inputs.npm_tag }}
-        DRY_RUN: ${{ inputs.dry-run }}
+    # - name: Publish to NPM registry
+    #   shell: bash
+    #   run: ${{ github.action_path }}/npm-publish.sh "$TAG" "$DRY_RUN"
+    #   env:
+    #     NODE_AUTH_TOKEN: ${{ inputs.npm_registry_token }}
+    #     TAG: ${{ inputs.npm_tag }}
+    #     DRY_RUN: ${{ inputs.dry-run }}
