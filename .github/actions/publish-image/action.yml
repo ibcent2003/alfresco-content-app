@@ -22,6 +22,7 @@ runs:
   using: "composite"
   steps:
     - name: Print vars
+      shell: bash
       run: |
         echo "tag_version: ${{ inputs.tag_version }}"
     # - name: Set up QEMU

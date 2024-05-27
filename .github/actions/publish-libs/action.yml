@@ -27,6 +27,7 @@ runs:
   using: "composite"
   steps:
     - name: Print vars
+      shell: bash
       run: |
         echo "branch_name: ${{ inputs.branch_name }}"
         echo "npm_tag: ${{ inputs.npm_tag }}"
